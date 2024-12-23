@@ -41,6 +41,7 @@ class Cell:
         self.options = [UP, DOWN, LEFT, RIGHT]
         self.x = x
         self.y = y
+        self.tile : pygame.image = None
     
     def collapse(self):
         self.is_collapse = True
