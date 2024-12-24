@@ -1,9 +1,7 @@
 import pygame
 import os
 from grid import Grid
-
-GRID_SIZE = 4
-
+from consts import *
 
 def load_tiles():
     # load all the file from /tiles that start with "tile"
@@ -15,11 +13,13 @@ def load_tiles():
     return tiles
 
 if __name__ == "__main__":
+    tiles = load_tiles()
     pygame.init()
     pygame.display.set_caption("Collapse")
     window = pygame.display.set_mode((800,800))
     grid = Grid(GRID_SIZE)
     grid.fill()
+    grid[3,3].set_tile(tiles[0])
     grid.draw(window)
     while True:
         for event in pygame.event.get():

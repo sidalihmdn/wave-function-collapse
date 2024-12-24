@@ -1,10 +1,8 @@
 import pygame
 
-CELL_SIZE = 100
-UP = 0
-DOWN = 1
-LEFT = 2
-RIGHT = 3
+from consts import *
+
+
 
 class Grid:
     def __init__(self, cell_number):
@@ -25,7 +23,7 @@ class Grid:
 
     def __getitem__(self, pos):
         x, y = pos
-        return self.cells[y/CELL_SIZE][x/CELL_SIZE]
+        return self.cells[y][x]
 
     def __setitem__(self, pos, value):
         x, y = pos
@@ -41,10 +39,34 @@ class Cell:
         self.options = [UP, DOWN, LEFT, RIGHT]
         self.x = x
         self.y = y
+        self.value = -1
+        self.options = []
         self.tile : pygame.image = None
     
     def collapse(self):
         self.is_collapse = True
 
+    def set_value(self, value):
+        self.value = value
+
+    def set_tile(self, tile):
+        self.tile = tile
+    
+    def __str__(self):
+        return str({
+            "is_collapse": self.is_collapse,
+            "options": self.options,
+            "value": self.value,
+            "tile": self.tile,
+            "x": self.x,
+            "y": self.y
+        })
+
+
     def draw(self, win):
-        pygame.draw.rect(win, (255, 255, 255), (self.x, self.y, CELL_SIZE, CELL_SIZE))
+        if self.tile is not None:
+            # draw the image corresponding to the value of the cell
+            tile = pygame.transform.scale(self.tile, (CELL_SIZE, CELL_SIZE))
+            win.blit(tile, (self.x, self.y))
+        else:
+            pygame.draw.rect(win, (255, 255, 255), (self.x, self.y, CELL_SIZE, CELL_SIZE))
