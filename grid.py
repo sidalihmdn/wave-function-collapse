@@ -1,5 +1,5 @@
 import pygame
-
+import random
 from consts import *
 
 
@@ -19,6 +19,14 @@ class Grid:
         for row in self.cells:
             for cell in row:
                 cell.draw(win)
+
+    def chech_options(self):
+        # check the options for each cell depending on the value of the cell and the rules
+        for row in self.cells:
+            for cell in row:
+                if not cell.is_collapse:
+                    cell.options = rules[cell.value]
+
                 
 
     def __getitem__(self, pos):
@@ -40,10 +48,16 @@ class Cell:
         self.x = x
         self.y = y
         self.value = -1
-        self.options = []
-        self.tile : pygame.image = None
+        self.options = {
+            "UP": [],
+            "DOWN": [],
+            "LEFT": [],
+            "RIGHT": []
+        }
+        self.tile : Tile = None
     
     def collapse(self):
+
         self.is_collapse = True
 
     def set_value(self, value):
@@ -66,7 +80,39 @@ class Cell:
     def draw(self, win):
         if self.tile is not None:
             # draw the image corresponding to the value of the cell
-            tile = pygame.transform.scale(self.tile, (CELL_SIZE, CELL_SIZE))
-            win.blit(tile, (self.x, self.y))
+            image = self.tile.image
+            image = pygame.transform.scale(image, (CELL_SIZE, CELL_SIZE))
+            win.blit(image, (self.x, self.y))
         else:
             pygame.draw.rect(win, (255, 255, 255), (self.x, self.y, CELL_SIZE, CELL_SIZE))
+
+
+class Tile:
+    def __init__(self, image, connection):
+        self.image : pygame.image = image
+        self.connection = connection
+    
+    def __str__(self):
+        return str({
+            "image": self.image,
+            "connections": self.connections
+        })
+    
+    def adjacency_rules(self , connections):
+        rules = {
+            UP: [],
+            DOWN: [],
+            LEFT: [],
+            RIGHT: []
+        }
+        for connection in connections.values():
+            if self.connection[0] == connection[-2]:
+                rules[LEFT].append(connection)
+            if self.connection[1] == connection[-1]:
+                rules[UP].append(connection)
+            if self.connection[2] == connection[0]:
+                rules[RIGHT].append(connection)
+            if self.connection[3] == connection[1]:
+                rules[DOWN].append(connection)
+        return rules
+
