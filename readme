@@ -1,7 +1,6 @@
 # Random Map Generation
 
-This is a python/pygame implementation of the wave function collapse algorithm, inspired by what is done on [CodingTrain/Wave-Function-Collapse](https://github.com/CodingTrain/Wave-Function-Collapse). (written on p5)
-
+This is a Python/Pygame implementation of the **Wave Function Collapse** algorithm, inspired by the [CodingTrain/Wave-Function-Collapse](https://github.com/CodingTrain/Wave-Function-Collapse) project (originally written in p5.js).
 
 ![Demo](https://github.com/sidalihmdn/wave-function-collapse/blob/develop/demo.gif)
 
@@ -12,35 +11,34 @@ This is a python/pygame implementation of the wave function collapse algorithm, 
 
 ## Installation
 
-1. Clone the repository:
+1. **Clone the repository:**
     ```sh
     git clone https://github.com/sidalihmdn/wave-function-collapse.git
     cd wave-function-collapse
     ```
 
-2. Install the dependencies:
+2. **Install the dependencies:**
     ```sh
     pipenv install
     ```
 
 ## Usage
 
-1. Run the main script:
+1. **Run the main script:**
     ```sh
     pipenv run python main.py
     ```
 
-2. Use the space bar to collapse the grid.
+2. **Controls:**
+    - Press the `Space` bar to collapse the grid.
 
 ## Project Structure
 
-- [consts.py](http://_vscodecontentref_/1): Defines constants used in the project.
-- [grid.py](http://_vscodecontentref_/2): Contains the classes , , and  to manage the grid and tiles.
-- [main.py](http://_vscodecontentref_/6): Main script to run the project.
-- [tiles](http://_vscodecontentref_/7): Contains the tile images.
-
-
+- **`consts.py`**: Defines constants used throughout the project.
+- **`grid.py`**: Contains classes to manage the grid and tiles.
+- **`main.py`**: Main script to run the project.
+- **`tiles/`**: Directory containing tile images.
 
 ## License
 
-This project is licensed under the MIT License. See the LICENSE file for details.
+This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.
