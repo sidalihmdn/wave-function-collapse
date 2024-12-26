@@ -1,2 +1,46 @@
-random map generation based on wave function collapse algorithm
+# Random Map Generation
 
+This is a python/pygame implementation of the wave function collapse algorithm, inspired by what is done on [CodingTrain/Wave-Function-Collapse](https://github.com/CodingTrain/Wave-Function-Collapse). (written on p5)
+
+
+![Demo](https://github.com/sidalihmdn/wave-function-collapse/blob/develop/demo.gif)
+
+## Prerequisites
+
+- Python 3.11
+- Pygame
+
+## Installation
+
+1. Clone the repository:
+    ```sh
+    git clone https://github.com/sidalihmdn/wave-function-collapse.git
+    cd wave-function-collapse
+    ```
+
+2. Install the dependencies:
+    ```sh
+    pipenv install
+    ```
+
+## Usage
+
+1. Run the main script:
+    ```sh
+    pipenv run python main.py
+    ```
+
+2. Use the space bar to collapse the grid.
+
+## Project Structure
+
+- [consts.py](http://_vscodecontentref_/1): Defines constants used in the project.
+- [grid.py](http://_vscodecontentref_/2): Contains the classes , , and  to manage the grid and tiles.
+- [main.py](http://_vscodecontentref_/6): Main script to run the project.
+- [tiles](http://_vscodecontentref_/7): Contains the tile images.
+
+
+
+## License
+
+This project is licensed under the MIT License. See the LICENSE file for details.
