@@ -31,21 +31,23 @@ if __name__ == "__main__":
         tiles[key] = Tile(images[key], connections[key])
 
     pygame.init()
+    clock = pygame.time.Clock()
     pygame.display.set_caption("Collapse")
-    window = pygame.display.set_mode((800,800))
+    window = pygame.display.set_mode((CELL_SIZE*GRID_SIZE, CELL_SIZE*GRID_SIZE))
     grid = Grid(GRID_SIZE, tiles)
     grid.fill()
     grid[3,3].set_tile(tiles[UP])
-    grid[3,4].set_tile(tiles[DOWN])
-    grid[4,3].set_tile(tiles[LEFT])
-    grid[5,4].set_tile(tiles[RIGHT])
-
     grid.calculate_options()
-    grid[3,3].set_value(DOWN)
-    grid.draw(window)
+
+
     while True:
         for event in pygame.event.get():
+            grid.draw(window)
             if event.type == pygame.QUIT:
                 pygame.quit()
                 exit()
-            pygame.display.flip()
+            if event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_SPACE:
+                    grid.collapse()
+
+        pygame.display.flip()

@@ -16,7 +16,6 @@ class Grid:
         self.cells = [[Cell(n*CELL_SIZE, m*CELL_SIZE) for n in range(self.cell_number)] for m in range(self.cell_number)]
 
     def draw(self, win):
-        win = pygame.display.set_mode((self.width, self.hight))
         for row in self.cells:
             for cell in row:
                 cell.draw(win)
@@ -38,7 +37,8 @@ class Grid:
                 cell = self.cells[i][j]
                 if cell.is_collapse:
                     continue
-                available_options = [tile.connection for tile in self.tiles.values()]
+                available_options = CONNECTIONS
+                #print(f"available_options {i} {j} : ", available_options)
                 neighbor_1 = self.cells[i][j+1] if j+1 < self.cell_number else None
                 neighbor_2 = self.cells[i+1][j] if i+1 < self.cell_number else None
                 neighbor_3 = self.cells[i][j-1] if j-1 >= 0 else None
@@ -46,6 +46,7 @@ class Grid:
 
                 if neighbor_1 and neighbor_1.tile:
                     neighbor_1_rules = neighbor_1.tile.adjacency_rules(self.tiles)[LEFT]
+                    #print(f"neighbor_1_rules {i} {j} : ", neighbor_1_rules)
                     available_options = intersect(available_options, neighbor_1_rules)
 
                 if neighbor_2 and neighbor_2.tile:
@@ -60,6 +61,37 @@ class Grid:
                     neighbor_4_rules = neighbor_4.tile.adjacency_rules(self.tiles)[DOWN]
                     available_options = intersect(available_options, neighbor_4_rules)
 
+                #print(f"available_options {i} {j} : ", available_options)
+                cell.set_options(available_options)
+
+    def collapse(self):
+        cell = self.get_lowest_entropy_cell()
+        if cell is None:
+            return
+        else:
+            if cell.is_collapse:
+                return
+            if len(cell.options) > 0:
+                random_tile = random.choice(cell.options)
+                for tile in self.tiles.values():
+                    if tile.connection == random_tile:
+                        cell.set_tile(tile)
+                        cell.collapse()
+                        break
+                self.calculate_options()
+                cell.options = []
+    
+    def get_lowest_entropy_cell(self):
+        lowest_entropy = 100
+        lowest_entropy_cell = None
+        for row in self.cells:
+            for cell in row:
+                if cell.is_collapse:
+                    continue
+                if len(cell.options) < lowest_entropy:
+                    lowest_entropy = len(cell.options)
+                    lowest_entropy_cell = cell
+        return lowest_entropy_cell
     
 def intersect(list_a, list_b):
     set_a = {tuple(a) for a in list_a}
@@ -69,24 +101,27 @@ def intersect(list_a, list_b):
 
 
 class Cell:
-    def __init__(self, x, y):
+    def __init__(self, x, y, tile=None):
         self.is_collapse = False
-        self.options = [UP, DOWN, LEFT, RIGHT]
+        self.options = CONNECTIONS
         self.x = x
         self.y = y
         self.value = -1
         self.options = []
-        self.tile : Tile = None
+        self.tile : Tile = tile
     
     def collapse(self):
-
         self.is_collapse = True
+
+    def set_options(self, options):
+        self.options = options
 
     def set_value(self, value):
         self.value = value
 
     def set_tile(self, tile):
         self.tile = tile
+        self.is_collapse = True
     
     def __str__(self):
         return str({

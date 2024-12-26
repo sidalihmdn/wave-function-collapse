@@ -4,6 +4,8 @@ LEFT = 2
 RIGHT = 3
 BLANK = 4
 
-CELL_SIZE = 50
+CELL_SIZE = 30
 
-GRID_SIZE = 10
+GRID_SIZE = 14
+
+CONNECTIONS = [[1,1,1,0], [1,0,1,1], [1,1,0,1], [0,1,1,1], [0,0,0,0]]
